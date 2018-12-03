@@ -1,6 +1,6 @@
 """
-Problem 57
-Square root convergence
+Project Euler 
+Problem 57 - Square root convergence
 """
 
 from sympy import cancel

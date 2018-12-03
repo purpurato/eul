@@ -1,22 +1,53 @@
 """
-Problem 33 Project Euler
+Project Euler
+Problem 33 - Digit cancelling fractions
 """
 
-import pdb 
-from itertools import combinations as comb
+from sympy import cancel
 
-nums = [x for x in range(10,100)]
+count = 0
+numerators, denominators = [],[]
+for numer in range(10,100):
+    for denom in range(numer+1,100):
+        str_numer = str(numer)
+        str_denom = str(denom)
+        expr = str_numer + '/' + str_denom
+        expr = str(cancel(expr))
+        
+        
+        if str_numer[0] in str_denom[0]:
+            frac = str_numer[1] + '/' + str_denom[1]
+            frac = str(cancel(frac))
+            if expr == frac:
+                print('{}/{}'.format(numer,denom))
+                numerators.append(numer)
+                denominators.append(denom)
+            
+        if str_numer[0] in str_denom[1]:
+            frac = str_numer[1] + '/' + str_denom[0]
+            frac = str(cancel(frac))
+            if expr == frac:
+                print('{}/{}'.format(numer,denom))
+                numerators.append(numer)
+                denominators.append(denom)
+        
+        if str_numer[1] in str_denom[0]:
+            frac = str_numer[0] + '/' + str_denom[1]
+            frac = str(cancel(frac))
+            if expr == frac:
+                print('{}/{}'.format(numer,denom))
+                numerators.append(numer)
+                denominators.append(denom)
 
-combis = list(comb(nums,2))
+#print('Numerators {}'.format(numerators))
+#print('Denominators {}'.format(denominators))
 
-pdb.set_trace()
-for ind, x in enumerate(combis):
-    num = list(str(x[0]))
-    den = list(str(x[1]))
-    
-    for a in num:
-        if a in den:
-            print('%s/%s' % (str(x[0]), str(x[1])))
-            num = num.remove(a)
-            den = den.remove(a)
-        print('%s/%s' % (num[0], den[0]))
+prod_numer, prod_denom = 1,1
+for x in numerators:
+    prod_numer *= x
+
+for x in denominators:
+    prod_denom *= x
+
+print('Product of fractions on lowest common terms')
+print(cancel(str(prod_numer) + '/' + str(prod_denom)))
